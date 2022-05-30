@@ -1,12 +1,14 @@
 import {configureStore} from '@reduxjs/toolkit';
 import homeToolbarSlice from './slices/homeToobarSlice';
 import registrationSlice from './slices/registrationSlice';
+import resturantSlice from './slices/resturantSlice';
 // ...
 
 export const store = configureStore({
   reducer: {
     registrationSlice: registrationSlice,
     homeToolbarSlice: homeToolbarSlice,
+    resturantSlice: resturantSlice,
   },
 });
 

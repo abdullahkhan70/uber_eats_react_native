@@ -40,7 +40,8 @@ const HomeToolbarButtons = (props: ToolbarProps) => {
                 ? colors.white
                 : colors.black,
           }}>
-          {props.menuButtonText}
+          {props.menuButtonText.charAt(0).toUpperCase() +
+            props.menuButtonText.slice(1)}
         </Text>
       </TouchableOpacity>
     </>
