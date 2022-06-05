@@ -6,6 +6,7 @@ import {
   ImageBackground,
   PixelRatio,
   ActivityIndicator,
+  Alert,
 } from 'react-native';
 import React, {useEffect} from 'react';
 import {dummyResturantItems} from '../../utils/list/dummyResturantItems';
@@ -14,12 +15,14 @@ import SearchbarButtons from './SearchbarButtons';
 import {colors} from '../../utils/colors';
 import {useAppDispatch, useAppSelector} from '../../utils/redux/hook';
 import {
+  setAboutData,
   setHeart,
   setResturantData,
 } from '../../utils/redux/slices/resturantSlice';
-import {endpoints} from '../../utils/strings';
+import {endpoints, screens} from '../../utils/strings';
 import axios from 'axios';
 import {YELP_API_KEY} from 'react-native-dotenv';
+import {useNavigation} from '@react-navigation/native';
 interface renderItemsProps {
   item: {
     image: number;
@@ -37,10 +40,13 @@ interface RestaurantItemsProps {
     name: string;
     rating: number;
     review_count: number;
+    transactions: [];
   };
   index: number;
 }
 const RestaurantItems = () => {
+  const navigation = useNavigation();
+
   const heart = useAppSelector(state => state.resturantSlice.heart);
   const resturantData = useAppSelector(
     state => state.resturantSlice.resturantData,
@@ -60,26 +66,33 @@ const RestaurantItems = () => {
 
     instance.get(endpoints.resturant_url).then(response => {
       // console.log(response.data.businesses);
+      console.log(homeToolbarText.toLowerCase());
       dispatch(
         setResturantData(
-          response.data.businesses.filter((data: any) =>
-            data.transactions.includes(
-              homeToolbarText.toString().toLowerCase(),
-            ),
-          ),
+          // response.data.businesses.filter((data: {transactions: []}) =>
+          //   data.transactions.includes(
+          //     homeToolbarText.toString().toLowerCase(),
+          //   ),
+          // ),
+          response.data.businesses,
         ),
       );
     });
   };
   useEffect(() => {
     resturantApi();
-    // let data = resturantData[0].filter((data: any) =>
-    //   data.transactions.includes(homeToolbarText.toLowerCase()),
-    // );
-    console.log(`Resturant Data: ${JSON.stringify(resturantData)}`);
+    // console.log(`Resturant Data: ${JSON.stringify(resturantData)}`);
   }, [homeToolbarText]);
+
+  const handleRestuarantDetail = (item: object) => {
+    dispatch(setAboutData(item));
+    navigation.navigate(screens.RESTUARANTDETAILS);
+  };
   const renderItems = ({item, index}: RestaurantItemsProps) => (
-    <TouchableOpacity key={index} style={styles.restaurantMainView}>
+    <TouchableOpacity
+      key={index}
+      style={styles.restaurantMainView}
+      onPress={() => handleRestuarantDetail(item)}>
       <View>
         <ImageBackground
           source={{uri: item?.image_url}}

@@ -1,11 +1,13 @@
 export const screens = {
   HOME: 'HOME',
+  RESTUARANTDETAILS: 'RESTUARANTDETAILS',
 };
 
 export const labels = {
   delivery: 'Delivery',
   pickup: 'Pickup',
   searchPlace: 'Search your Place.',
+  viewCart: 'View cart',
 };
 
 export const endpoints = {

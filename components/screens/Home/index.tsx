@@ -19,10 +19,23 @@ import Searchbar from './Searchbar';
 import Categories from './Categories';
 import RestaurantItems from './RestaurantItems';
 import {YELP_API_KEY} from 'react-native-dotenv';
+import {setResturantDataFilter} from '../../utils/redux/slices/resturantSlice';
+import {Divider} from 'react-native-elements';
+import BottomTabs from '../../navigation/BottomTabs';
 const index = () => {
   const dispatch = useAppDispatch();
+  const resturantData = useAppSelector(
+    state => state.resturantSlice.resturantData,
+  );
+  const homeToolbarText = useAppSelector(
+    state => state.homeToolbarSlice.homeToolbarText,
+  );
   const handleHomeBtn = async (text: string) => {
     dispatch(setHomeToolbarText(String(text)));
+    // const data = resturantData.filter((data: {transactions: []}) =>
+    //   data.transactions.includes(text.toString().toLowerCase()),
+    // );
+    dispatch(setResturantDataFilter(String(text)));
   };
   useEffect(() => {
     console.log(YELP_API_KEY);
@@ -33,7 +46,6 @@ const index = () => {
       style={{
         backgroundColor: colors.white,
         flex: 1,
-        marginBottom: PixelRatio.getPixelSizeForLayoutSize(3),
         borderBottomColor: '#eee',
         borderBottomWidth: 2,
       }}>
@@ -67,6 +79,8 @@ const index = () => {
           </View>
         </TouchableHighlight>
       </ScrollView>
+      <Divider width={1} />
+      <BottomTabs />
     </SafeAreaView>
   );
 };

@@ -12,6 +12,7 @@ export const styles = StyleSheet.create({
   restaurantMainView: {
     marginTop: PixelRatio.getPixelSizeForLayoutSize(5),
     alignItems: 'center',
+    marginBottom: PixelRatio.getPixelSizeForLayoutSize(2),
   },
   loadingText: {
     fontSize: 16,

@@ -11,6 +11,7 @@ const Searchbar = () => {
   return (
     <View style={styles.searchBarMainView}>
       <GooglePlacesAutocomplete
+        query={{key: ''}}
         placeholder={labels.searchPlace}
         styles={{
           textInput: {
