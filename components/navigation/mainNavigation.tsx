@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {Home, RestuarantDetails} from '../screens';
+import {Home, OrderCompleted, RestuarantDetails} from '../screens';
 import {screens} from '../utils/strings';
 import {Provider} from 'react-redux';
 import {store} from '../utils/redux/Store';
@@ -59,6 +59,11 @@ export const mainNavigation = () => {
           <Stack.Screen
             name={screens.RESTUARANTDETAILS}
             component={RestuarantDetails}
+            options={{headerShown: false}}
+          />
+          <Stack.Screen
+            name={screens.ORDERCOMPLETED}
+            component={OrderCompleted}
             options={{headerShown: false}}
           />
         </Stack.Navigator>

@@ -28,13 +28,23 @@ interface renderItemsProps {
   };
   index?: number;
 }
-
-const MenuItems = () => {
+type MenuItemsProps = {
+  data: {
+    id: number;
+    title: string;
+    description: string;
+    price: number;
+    image: string;
+  }[];
+  checkBox: Boolean;
+};
+const MenuItems = ({data, checkBox}: MenuItemsProps) => {
   const dispatch = useAppDispatch();
   const selSelectedMenuItems = useAppSelector(
     state => state?.resturantSlice?.selectedMenuItems,
   );
   useEffect(() => {
+    // console.log('data: ' + JSON.stringify(data));
     const backAction = () => {
       dispatch(setRemoveAllSelectedMenuItems([]));
     };
@@ -56,15 +66,18 @@ const MenuItems = () => {
 
   const renderItems = ({item, index}: renderItemsProps) => (
     <TouchableOpacity
-      key={index}
       style={{flex: 1}}
       onPress={() => console.log(JSON.stringify(selSelectedMenuItems))}>
       <View style={styles.menuItemsMainView}>
-        <BouncyCheckbox
-          iconStyle={{borderColor: 'lightgray', borderRadius: 4}}
-          fillColor={'green'}
-          onPress={checkValue => addToCart(item, checkValue)}
-        />
+        {checkBox == true ? (
+          <BouncyCheckbox
+            iconStyle={{borderColor: 'lightgray', borderRadius: 4}}
+            fillColor={'green'}
+            onPress={checkValue => addToCart(item, checkValue)}
+          />
+        ) : (
+          <View />
+        )}
         <View>
           <Text style={styles.menuItemTitle} numberOfLines={1}>
             {item?.title}
@@ -73,7 +86,7 @@ const MenuItems = () => {
           <Text style={styles.menuItemsPrice}>{'$' + item?.price}</Text>
         </View>
         <Image
-          source={item?.image}
+          source={{uri: item?.image}}
           style={styles.menuItemImage}
           resizeMode={'cover'}
         />
@@ -86,7 +99,7 @@ const MenuItems = () => {
   return (
     <>
       <FlatList
-        data={dummyMenuItems}
+        data={data}
         renderItem={renderItems}
         showsVerticalScrollIndicator={false}
         ItemSeparatorComponent={ItemSeparator}

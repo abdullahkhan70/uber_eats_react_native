@@ -6,9 +6,16 @@ import {Divider} from 'react-native-elements';
 import MenuItems from './MenuItems';
 import {useAppSelector} from '../../utils/redux/hook';
 import ViewCartButton from './ViewCartButton';
-
+import ViewCartModal from './ViewCartModal';
+import {dummyMenuItems} from '../../utils/list/dummyMenuItems';
 const index = () => {
   const selAboutData = useAppSelector(state => state.resturantSlice.aboutData);
+  const selSelectedMenuItems = useAppSelector(
+    state => state?.resturantSlice?.selectedMenuItems,
+  );
+  const selViewCartModal = useAppSelector(
+    state => state?.resturantSlice?.viewCartModal,
+  );
   useEffect(() => {
     console.log(JSON.stringify(selAboutData));
   }, []);
@@ -24,8 +31,9 @@ const index = () => {
         width={0.5}
         style={{marginVertical: PixelRatio.getPixelSizeForLayoutSize(4)}}
       />
-      <MenuItems />
-      <ViewCartButton />
+      <MenuItems data={dummyMenuItems} checkBox={true} />
+      {selSelectedMenuItems.length > 0 ? <ViewCartButton /> : <View />}
+      {selViewCartModal ? <ViewCartModal /> : <View />}
     </View>
   );
 };

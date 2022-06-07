@@ -1,6 +1,7 @@
 export const screens = {
   HOME: 'HOME',
   RESTUARANTDETAILS: 'RESTUARANTDETAILS',
+  ORDERCOMPLETED: 'ORDERCOMPLETED',
 };
 
 export const labels = {
@@ -8,6 +9,8 @@ export const labels = {
   pickup: 'Pickup',
   searchPlace: 'Search your Place.',
   viewCart: 'View cart',
+  checkOut: 'Check Out',
+  subTotal: 'Sub Total',
 };
 
 export const endpoints = {

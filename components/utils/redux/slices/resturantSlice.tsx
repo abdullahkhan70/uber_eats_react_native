@@ -21,6 +21,16 @@ type resturantSliceProps = {
       image: number;
     },
   ];
+  viewCartModal: Boolean;
+  orderData: [
+    {
+      id: number;
+      title: string;
+      description: string;
+      price: string;
+      image: number;
+    },
+  ];
 };
 
 const initialState: resturantSliceProps = {
@@ -35,6 +45,8 @@ const initialState: resturantSliceProps = {
     categories: [{title: ''}],
   },
   selectedMenuItems: [],
+  viewCartModal: false,
+  orderData: [],
 };
 
 export const resturantSlice = createSlice({
@@ -64,6 +76,16 @@ export const resturantSlice = createSlice({
     setRemoveAllSelectedMenuItems: (state: any, action: any) => {
       state.selectedMenuItems = [];
     },
+    setViewCartModal: (state: any, action: PayloadAction<Boolean>) => {
+      state.viewCartModal = action.payload;
+    },
+
+    setOrderData: (state: any, action: any) => {
+      state.orderData = [...state.orderData, action.payload];
+    },
+    setRemoveAllOrderData: (state: any, action: any) => {
+      state.orderData = [];
+    },
   },
 });
 
@@ -75,6 +97,9 @@ export const {
   setSelectedMenuItems,
   setRemoveSelectedMenuItems,
   setRemoveAllSelectedMenuItems,
+  setViewCartModal,
+  setOrderData,
+  setRemoveAllOrderData,
 } = resturantSlice.actions;
 
 export const selectHeart = (state: RootState) => state.resturantSlice.heart;
@@ -84,5 +109,9 @@ export const selectAboutData = (state: RootState) =>
   state.resturantSlice.aboutData;
 export const selectSelectedMenuItems = (state: RootState) =>
   state.resturantSlice.selectedMenuItems;
+export const selectViewCartModal = (state: RootState) =>
+  state.resturantSlice.viewCartModal;
+export const selectOrderData = (state: RootState) =>
+  state.resturantSlice.orderData;
 
 export default resturantSlice.reducer;
