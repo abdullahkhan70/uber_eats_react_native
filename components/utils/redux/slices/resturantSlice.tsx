@@ -31,6 +31,7 @@ type resturantSliceProps = {
       image: number;
     },
   ];
+  loading: Boolean;
 };
 
 const initialState: resturantSliceProps = {
@@ -47,6 +48,7 @@ const initialState: resturantSliceProps = {
   selectedMenuItems: [],
   viewCartModal: false,
   orderData: [],
+  loading: false,
 };
 
 export const resturantSlice = createSlice({
@@ -86,6 +88,9 @@ export const resturantSlice = createSlice({
     setRemoveAllOrderData: (state: any, action: any) => {
       state.orderData = [];
     },
+    setLoading: (state: any, action: PayloadAction<Boolean>) => {
+      state.loading = action.payload;
+    },
   },
 });
 
@@ -100,6 +105,7 @@ export const {
   setViewCartModal,
   setOrderData,
   setRemoveAllOrderData,
+  setLoading,
 } = resturantSlice.actions;
 
 export const selectHeart = (state: RootState) => state.resturantSlice.heart;
@@ -113,5 +119,6 @@ export const selectViewCartModal = (state: RootState) =>
   state.resturantSlice.viewCartModal;
 export const selectOrderData = (state: RootState) =>
   state.resturantSlice.orderData;
+export const selectLoading = (state: RootState) => state.resturantSlice.loading;
 
 export default resturantSlice.reducer;

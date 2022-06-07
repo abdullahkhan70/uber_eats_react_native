@@ -2,13 +2,17 @@ import {View, Text, FlatList, PixelRatio, TouchableOpacity} from 'react-native';
 import React from 'react';
 import {useAppDispatch, useAppSelector} from '../../utils/redux/hook';
 import Modal from 'react-native-modal';
-import {setViewCartModal} from '../../utils/redux/slices/resturantSlice';
+import {
+  setLoading,
+  setViewCartModal,
+} from '../../utils/redux/slices/resturantSlice';
 import {styles} from './styles';
 import {Divider} from 'react-native-elements';
 import {colors} from '../../utils/colors';
 import {labels, screens} from '../../utils/strings';
 import firestore from '@react-native-firebase/firestore';
 import {useNavigation} from '@react-navigation/native';
+import AnimatedLottieView from 'lottie-react-native';
 interface renderItemsProps {
   item: {title: string; price: number};
   index: number;
@@ -28,18 +32,28 @@ const ViewCartModal = () => {
   const selSelectedMenuItems = useAppSelector(
     state => state?.resturantSlice?.selectedMenuItems,
   );
+  const selLoading = useAppSelector(state => state?.resturantSlice?.loading);
   let totalPrice = selSelectedMenuItems
     .map(item => Number(item?.price))
     .reduce((prev, curr) => prev + curr, 0);
 
   const handleCheckout = async () => {
-    const usersCollection = await firestore().collection('orders').add({
-      items: selSelectedMenuItems,
-      createdAt: firestore.FieldValue.serverTimestamp(),
-    });
-    console.log(usersCollection);
     hideModal();
-    navigation.navigate(screens.ORDERCOMPLETED);
+    dispatch(setLoading(Boolean(true)));
+    const usersCollection = await firestore()
+      .collection('orders')
+      .add({
+        items: selSelectedMenuItems,
+        createdAt: firestore.FieldValue.serverTimestamp(),
+      })
+      .then(() => {
+        setTimeout(() => {
+          console.log(usersCollection);
+
+          dispatch(setLoading(Boolean(false)));
+          navigation.navigate(screens.ORDERCOMPLETED);
+        }, 2500);
+      });
   };
 
   const renderItems = ({item, index}: renderItemsProps) => (

@@ -12,7 +12,15 @@ export const styles = StyleSheet.create({
     fontSize: 20,
     color: colors.white,
   },
-
+  loadingScreenStyle: {
+    width: width,
+    height: height,
+    backgroundColor: colors.black,
+    position: 'absolute',
+    opacity: 0.6,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   viewCartModalPrice: {
     fontSize: 15.5,
     fontWeight: 'bold',
